@@ -53,3 +53,6 @@ data/www/.env
 *.tmp
 *.temp
 debug.log
+
+# Embedded Git repositories (PHPMailer)
+data/www/includes/PHPMailer/.git
