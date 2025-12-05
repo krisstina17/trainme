@@ -10,7 +10,7 @@ require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../includes/auth.php';
 
 // Check if Google OAuth is configured
-if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID' || empty(GOOGLE_CLIENT_ID)) {
+if (!defined('GOOGLE_CLIENT_ID') || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID' || empty(GOOGLE_CLIENT_ID)) {
     $_SESSION['error'] = 'Google prijava ni konfigurirana. Prosimo, kontaktirajte administratorja.';
     header('Location: /login.php');
     exit;

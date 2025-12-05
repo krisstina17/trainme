@@ -10,7 +10,7 @@ Kompletna spletna aplikacija za naročanje na fitnes programe z modernim dizajno
 - ✅ Pregled profilov trenerjev in njihovih fitnes programov
 - ✅ Iskanje in filtriranje trenerjev po tipu programa
 - ✅ Naročnina na mesečni program trenerja
-- ✅ Plačilo mesečne članarine (Stripe/PayPal simulacija)
+- ✅ Plačilo mesečne članarine (Stripe integracija)
 - ✅ Dostop do vsebin programa
 - ✅ Prikaz grafov napredka uporabnika (Chart.js)
 - ✅ Ocenjevanje in komentiranje trenerjev
@@ -65,18 +65,38 @@ docker-compose up -d
 
 ## Konfiguracija
 
+### Environment Variables (.env)
+Ustvarite `data/www/.env` datoteko z naslednjimi spremenljivkami:
+
+```env
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Stripe
+STRIPE_PUBLIC_KEY=pk_test_your_key
+STRIPE_SECRET_KEY=sk_test_your_key
+
+# Email (SMTP)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+SMTP_FROM_EMAIL=noreply@trainme.com
+SMTP_FROM_NAME=TrainMe Platform
+```
+
+**POMEMBNO:** `.env` datoteka je že v `.gitignore` in se ne bo commit-ala v Git!
+
 ### Google OAuth
 1. Ustvarite Google OAuth aplikacijo na [Google Cloud Console](https://console.cloud.google.com/)
 2. Dodajte `http://localhost:8000/google/google-callback.php` kot redirect URI
-3. Posodobite `data/www/includes/config.php` z vašimi Google Client ID in Secret
+3. Dodajte credentials v `.env` datoteko
 
-### Google Maps API
-1. Ustvarite API ključ na [Google Cloud Console](https://console.cloud.google.com/)
-2. Omogočite Maps JavaScript API
-3. Posodobite `data/www/fitnes-centri.php` z vašim API ključem
-
-### Email konfiguracija
-Posodobite email nastavitve v `data/www/includes/config.php` za pošiljanje emailov.
+### Stripe Plačila
+1. Ustvarite Stripe račun na [Stripe Dashboard](https://dashboard.stripe.com/)
+2. Kopirajte Test API ključe (Publishable key in Secret key)
+3. Dodajte ključe v `.env` datoteko
 
 ## Struktura projekta
 

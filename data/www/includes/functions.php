@@ -2,6 +2,14 @@
 require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/helpers.php';
 
+// PHPMailer classes (if available)
+$phpmailerPath = __DIR__ . '/PHPMailer/src/PHPMailer.php';
+if (file_exists($phpmailerPath)) {
+    require_once __DIR__ . '/PHPMailer/src/Exception.php';
+    require_once __DIR__ . '/PHPMailer/src/PHPMailer.php';
+    require_once __DIR__ . '/PHPMailer/src/SMTP.php';
+}
+
 /**
  * Sanitize input
  */
@@ -118,14 +126,63 @@ function uploadProfileImage($file, $userId) {
  * Send email notification
  */
 function sendEmail($to, $subject, $message, $isHTML = true) {
-    // Simple mail function - can be replaced with PHPMailer
+    // Try to use PHPMailer if available, otherwise fallback to mail()
+    $phpmailerPath = __DIR__ . '/PHPMailer/src/PHPMailer.php';
+    
+    if (file_exists($phpmailerPath) && class_exists('PHPMailer\PHPMailer\PHPMailer')) {
+        // Use PHPMailer for reliable email sending
+        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+        
+        try {
+            // Server settings
+            $mail->isSMTP();
+            $mail->Host = defined('SMTP_HOST') ? SMTP_HOST : 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = defined('SMTP_USER') ? SMTP_USER : '';
+            $mail->Password = defined('SMTP_PASS') ? SMTP_PASS : '';
+            $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = defined('SMTP_PORT') ? SMTP_PORT : 587;
+            $mail->CharSet = 'UTF-8';
+            
+            // Recipients
+            $fromEmail = defined('SMTP_FROM_EMAIL') ? SMTP_FROM_EMAIL : 'noreply@trainme.com';
+            $fromName = defined('SMTP_FROM_NAME') ? SMTP_FROM_NAME : 'TrainMe Platform';
+            $mail->setFrom($fromEmail, $fromName);
+            $mail->addAddress($to);
+            
+            // Content
+            $mail->isHTML($isHTML);
+            $mail->Subject = $subject;
+            $mail->Body = $message;
+            
+            if ($isHTML) {
+                $mail->AltBody = strip_tags($message);
+            }
+            
+            $mail->send();
+            return true;
+        } catch (\PHPMailer\PHPMailer\Exception $e) {
+            // Log error but don't break the application
+            error_log("PHPMailer Error: " . $mail->ErrorInfo);
+            // Fallback to mail() function
+        }
+    }
+    
+    // Fallback to simple mail() function
     $headers = "MIME-Version: 1.0\r\n";
     if ($isHTML) {
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     }
-    $headers .= "From: " . SMTP_FROM_NAME . " <" . SMTP_FROM_EMAIL . ">\r\n";
+    $fromEmail = defined('SMTP_FROM_EMAIL') ? SMTP_FROM_EMAIL : 'noreply@trainme.com';
+    $fromName = defined('SMTP_FROM_NAME') ? SMTP_FROM_NAME : 'TrainMe Platform';
+    $headers .= "From: {$fromName} <{$fromEmail}>\r\n";
     
-    return mail($to, $subject, $message, $headers);
+    // Suppress mail() warnings in development/Docker environment
+    $oldErrorReporting = error_reporting(E_ALL & ~E_WARNING);
+    $result = @mail($to, $subject, $message, $headers);
+    error_reporting($oldErrorReporting);
+    
+    return $result;
 }
 
 /**
