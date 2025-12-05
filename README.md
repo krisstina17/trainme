@@ -82,18 +82,66 @@ trainme/
 - **Container:** Docker & Docker Compose
 - **Integracije:** Stripe, Google OAuth, PHPMailer
 
+## ✨ Funkcionalnosti
+
+### 🔐 Avtentikacija in uporabniki
+- **Registracija in prijava** - Tradicionalna registracija z emailom in geslom
+- **Google OAuth** - Hitra prijava z Google računom
+- **Upravljanje profila** - Posodabljanje osebnih podatkov in profilne slike
+- **Vloge uporabnikov** - Ločevanje med navadnimi uporabniki in trenerji
+
+### 💪 Programi in naročila
+- **Pregled programov** - Iskanje in filtriranje programov po specializaciji
+- **Podrobnosti programa** - Prikaz vaj, videov, opisa in informacij o trenerju
+- **Naročanje programov** - Enostavno naročanje z izbiro trajanja
+- **Stripe plačila** - Varno plačilo s kreditno kartico preko Stripe Elements
+- **Dostop do programov** - Osebna stran z vsemi naročenimi programi
+
+### 📊 Spremljanje napredka
+- **Vodenje napredka** - Shranjevanje teže in meritev
+- **Interaktivni grafi** - Vizualizacija napredka z Chart.js
+- **Označevanje opravljenih vaj** - Sledenje napredku skozi program
+- **Izvoz podatkov** - Možnost izvoza napredka v PDF
+
+### ⭐ Ocenjevanje in komentarji
+- **Ocenjevanje trenerjev** - 1-5 zvezdicna ocena
+- **Komentarji** - Pisanje mnenj o trenerjih in programih
+- **Pregled ocen** - Prikaz povprečnih ocen za vsakega trenerja
+
+### 🏋️ Trener dashboard
+- **Upravljanje programov** - Dodajanje, urejanje in brisanje programov
+- **Upravljanje vaj** - Dodajanje vaj z videi, slikami in opisi
+- **Pregled ocen** - Pregled vseh ocen in komentarjev
+- **Statistike** - Pregled naročil in aktivnosti
+
+### 🗺️ Fitnes centri
+- **Geolokacija** - Avtomatično iskanje najbližjih fitnes centrov
+- **Interaktivna karta** - Prikaz centrov na Leaflet karti
+- **Razdalje** - Izračun razdalje do vsakega centra
+
+### 📱 Dodatne funkcionalnosti
+- **QR kode** - Generiranje QR kod za dostop do programov
+- **Email obvestila** - Avtomatična obvestila o naročilih in spremembah
+- **Responsive dizajn** - Optimizirano za vse naprave
+- **AJAX/Fetch API** - Dinamično nalaganje podatkov brez osveževanja strani
+- **LocalStorage** - Shranjevanje napredka lokalno v brskalniku
+
 ## 📝 Uporaba
 
 ### Za uporabnike
-- Registracija/Prijava (tudi z Google)
-- Pregled in naročilo programov
-- Spremljanje napredka z grafi
-- Ocenjevanje trenerjev
+1. **Registracija/Prijava** - Ustvari račun ali se prijavi z Google
+2. **Iskanje programov** - Preglej in filtriraj programe na `/programi.php`
+3. **Naročilo** - Izberi program in opravi plačilo
+4. **Vadba** - Dostopaj do vaj in sledi napredku na `/moj-program.php`
+5. **Napredek** - Vnesi meritve in si oglej grafe na `/napredek.php`
+6. **Ocenjevanje** - Oceni trenerje in napiši komentarje
 
 ### Za trenerje
-- Dashboard za upravljanje programov
-- Dodajanje in urejanje vaj
-- Pregled ocen in komentarjev
+1. **Prijava** - Prijavi se z računom trenerja
+2. **Dashboard** - Pojdi na `/trainer/dashboard.php`
+3. **Ustvari program** - Dodaj nov program z osnovnimi informacijami
+4. **Dodaj vaje** - Ustvari vaje z videi, slikami in opisi
+5. **Pregled** - Spremljaj ocene in komentarje uporabnikov
 
 ## 🐛 Debugging
 
