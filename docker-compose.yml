@@ -1,0 +1,38 @@
+services:
+  spletni-streznik:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM php:apache
+        RUN docker-php-ext-install pdo pdo_mysql
+        RUN a2enmod rewrite
+        RUN a2enmod headers
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:80"
+    volumes:
+      - ./data/www:/var/www/html/
+
+  mysql:
+    image: mysql:8.0
+    hostname: podatkovna-baza
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=superVarnoGeslo
+      - MYSQL_DATABASE=trainme_db
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3308:3306"
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8001:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: superVarnoGeslo

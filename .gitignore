@@ -1,0 +1,53 @@
+# Docker
+data/mysql/
+*.log
+
+# Uploads (uporabniške slike)
+data/www/uploads/*.png
+data/www/uploads/*.jpg
+data/www/uploads/*.jpeg
+data/www/uploads/*.gif
+data/www/uploads/*.webp
+!data/www/uploads/.gitkeep
+
+# Testne/razvojne SQL datoteke
+data/www/reset-*.sql
+data/www/make-*.sql
+data/www/cleanup-*.sql
+data/www/fix-*.sql
+data/www/update-*.sql
+data/www/add-*.sql
+data/www/add_*.sql
+data/www/*-programs.sql
+data/www/*-exercises.sql
+
+# PHP
+*.log
+*.cache
+.htaccess.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables - CRITICAL: Never commit .env file!
+.env
+.env.local
+.env.*.local
+
+# Config file with sensitive data (if you want to exclude it completely)
+# Uncomment the line below if you want to exclude config.php from Git
+# data/www/includes/config.php
+
+# Temporary files
+*.tmp
+*.temp
+debug.log
